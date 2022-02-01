@@ -25,9 +25,10 @@
 
 ################################################################################
 # Imports
+# from dataclasses import dataclass
+# from typing import Any, List
 import streamlit as st
-from dataclasses import dataclass
-from typing import Any, List
+from crypto_wallet import generate_account, get_balance, send_transaction
 from web3 import Web3
 w3 = Web3(Web3.HTTPProvider('HTTP://127.0.0.1:7545'))
 ################################################################################
@@ -45,7 +46,7 @@ w3 = Web3(Web3.HTTPProvider('HTTP://127.0.0.1:7545'))
 
 # 1. Review the code contained in the `crypto_wallet.py` script file. Note that
 # the Ethereum transaction functions that you have built throughout this
-# module-including `wallet`, `wallet.derive_acount`, `get_balance`, `fromWei`,
+# module-including `wallet`, `wallet.derive_account`, `get_balance`, `fromWei`,
 # `estimateGas`, `sendRawTransaction`, and others&mdash;have now been
 # incorporated into Python functions that allow you to automate the process of
 # accessing them.
@@ -109,6 +110,7 @@ def get_people():
         st.write("Hourly Rate per Ether: ", db_list[number][3], "eth")
         st.text(" \n")
 
+
 ################################################################################
 # Streamlit Code
 
@@ -131,11 +133,13 @@ st.sidebar.markdown("## Client Account Address and Ethernet Balance in Ether")
 # @TODO:
 #  Call the `generate_account` function and save it as the variable `account`
 # YOUR CODE HERE
-
+account = generate_account()
 ##########################################
 
 # Write the client's Ethereum account address to the sidebar
+st.sidebar.markdown("### Client ETH Address")
 st.sidebar.write(account.address)
+
 
 ##########################################
 # Step 1 - Part 5:
@@ -147,7 +151,9 @@ st.sidebar.write(account.address)
 # Call `get_balance` function and pass it your account address
 # Write the returned ether balance to the sidebar
 # YOUR CODE HERE
-
+ether_balance = get_balance(w3, account.address)
+st.sidebar.markdown("### Client Balance")
+st.sidebar.write(ether_balance)
 ##########################################
 
 # Create a select box to chose a FinTech Hire candidate
@@ -191,14 +197,14 @@ st.sidebar.markdown("## Total Wage in Ether")
 # completes these steps, the application will calculate the amount that the
 # worker will be paid in ether. To do so, complete the following steps:
 
-    # * Write the equation that calculates the candidate’s wage. This equation
-    #  should assess the candidate’s hourly rate from the candidate database
-    # (`candidate_database[person][3]`) and then multiply this hourly rate by
-    # the value of the `hours` variable. Save this calculation’s output as a
-    # variable named `wage`.
+# * Write the equation that calculates the candidate’s wage. This equation
+#  should assess the candidate’s hourly rate from the candidate database
+# (`candidate_database[person][3]`) and then multiply this hourly rate by
+# the value of the `hours` variable. Save this calculation’s output as a
+# variable named `wage`.
 
-    # * Write the `wage` variable to the Streamlit sidebar by
-    # using `st.sidebar.write`.
+# * Write the `wage` variable to the Streamlit sidebar by
+# using `st.sidebar.write`.
 
 # 2. Now that the application can calculate a candidate’s wage, write the code
 # that will allow a customer (you, in this case) to send an Ethereum blockchain
@@ -208,21 +214,21 @@ st.sidebar.markdown("## Total Wage in Ether")
 # the `send_transaction` function (which you imported from the `crypto_wallet`
 # script file). Inside the `if` statement, add the following functionality:
 
-    # * Call the `send_transaction()` function and pass it three parameters:
-        # - Your Ethereum `account` information. (Remember that this `account`
-        # instance was created when the `generate_account` function was called.)
-        #  From the `account` instance, the application will be able to access the
-        #  `account.address` information that is needed to populate the `from` data
-        # attribute in the raw transaction.
-        #- The `candidate_address` (which will be created and identified in the
-        # sidebar when a customer selects a candidate). This will populate the `to`
-        # data attribute in the raw transaction.
-        # - The `wage` value. This will be passed to the `toWei` function to
-        # determine the wei value of the payment in the raw transaction.
+# * Call the `send_transaction()` function and pass it three parameters:
+#  - Your Ethereum `account` information. (Remember that this `account`
+#  instance was created when the `generate_account` function was called.)
+#   From the `account` instance, the application will be able to access the
+#   `account.address` information that is needed to populate the `from` data
+#  attribute in the raw transaction.
+# - The `candidate_address` (which will be created and identified in the
+#  sidebar when a customer selects a candidate). This will populate the `to`
+#  data attribute in the raw transaction.
+#  - The `wage` value. This will be passed to the `toWei` function to
+#  determine the wei value of the payment in the raw transaction.
 
-    # * Save the transaction hash that the `send_transaction` function returns
-    # as a variable named `transaction_hash`, and have it display on the
-    # application’s web interface.
+# * Save the transaction hash that the `send_transaction` function returns
+# as a variable named `transaction_hash`, and have it display on the
+# application’s web interface.
 
 ##########################################
 # Step 2 - Part 1:
@@ -246,16 +252,16 @@ st.sidebar.markdown("## Total Wage in Ether")
 ##########################################
 # Step 2 - Part 2:
 # * Call the `send_transaction` function and pass it three parameters:
-    # - Your Ethereum `account` information. (Remember that this `account`
-    # instance was created when the `generate_account` function was called.)
-    #  From the `account` instance, the application will be able to access the
-    #  `account.address` information that is needed to populate the `from` data
-    # attribute in the raw transaction.
-    #- The `candidate_address` (which will be created and identified in the
-    # sidebar when a customer selects a candidate). This will populate the `to`
-    # data attribute in the raw transaction.
-    # - The `wage` value. This will be passed to the `toWei` function to
-    # determine the wei value of the payment in the raw transaction.
+# - Your Ethereum `account` information. (Remember that this `account`
+# instance was created when the `generate_account` function was called.)
+#  From the `account` instance, the application will be able to access the
+#  `account.address` information that is needed to populate the `from` data
+# attribute in the raw transaction.
+# - The `candidate_address` (which will be created and identified in the
+# sidebar when a customer selects a candidate). This will populate the `to`
+# data attribute in the raw transaction.
+# - The `wage` value. This will be passed to the `toWei` function to
+# determine the wei value of the payment in the raw transaction.
 
 # * Save the transaction hash that the `send_transaction` function returns as a
 # variable named `transaction_hash`, and have it display on the application’s
@@ -273,10 +279,10 @@ if st.sidebar.button("Send Transaction"):
     # Markdown for the transaction hash
     st.sidebar.markdown("#### Validated Transaction Hash")
 
-    # Write the returned transaction hash to the screen
+# Write the returned transaction hash to the screen
     st.sidebar.write(transaction_hash)
 
-    # Celebrate your successful payment
+# Celebrate your successful payment
     st.balloons()
 
 # The function that starts the Streamlit application
@@ -310,11 +316,11 @@ get_people()
 # application sidebar.
     
 # 5. Navigate to the Ganache accounts tab and locate your account (index 0).
-    # * Take a screenshot of the address, balance, and transaction (TX) count.
-    # Save this screenshot to the README.md file of your GitHub repository for
-    #  this Challenge assignment.
+# * Take a screenshot of the address, balance, and transaction (TX) count.
+# Save this screenshot to the README.md file of your GitHub repository for
+#  this Challenge assignment.
     
 # 6. Navigate to the Ganache transactions tab and locate the transaction.
-    # * Click the transaction and take a screenshot of it.
-    # Save this screenshot to the README.md file of your GitHub repository for
-    #  this Challenge assignment.
+# * Click the transaction and take a screenshot of it.
+# Save this screenshot to the README.md file of your GitHub repository for
+#  this Challenge assignment.

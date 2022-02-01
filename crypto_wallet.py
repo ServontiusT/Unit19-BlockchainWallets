@@ -1,21 +1,27 @@
+# Imports
+import os
+from dotenv import load_dotenv
+from bip44 import Wallet
+from web3 import Account
+from web3.gas_strategies.time_based import medium_gas_price_strategy
+# import requests
+# from web3 import middleware
+
+load_dotenv()
+
+
+################################################################################
 # Cryptocurrency Wallet
 ################################################################################
 
-# This file contains the Ethereum transaction functions that you have created throughout this module’s lessons. By using import statements, you will integrate this `crypto_wallet.py` Python script into the Fintech Finder interface program that is found in the `fintech_finder.py` file.
+# This file contains the Ethereum transaction functions that you have created throughout this module’s lessons.
+# By using import statements, you will integrate this `crypto_wallet.py` Python script into the Fintech Finder interface
+# program that is found in the `fintech_finder.py` file.
 
 ################################################################################
-# Imports
-import os
-import requests
-from dotenv import load_dotenv
-load_dotenv()
-from bip44 import Wallet
-from web3 import Account
-from web3 import middleware
-from web3.gas_strategies.time_based import medium_gas_price_strategy
 
-################################################################################
 # Wallet functionality
+
 
 def generate_account():
     """Create a digital wallet and Ethereum account from a mnemonic seed phrase."""
@@ -32,6 +38,7 @@ def generate_account():
     account = Account.privateKeyToAccount(private)
 
     return account
+
 
 def get_balance(w3, address):
     """Using an Ethereum account address access the balance of Ether"""
