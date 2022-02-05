@@ -115,7 +115,21 @@ Now it's time to put it all together and test the Fintech Finder application wit
 * Upload the files for this assignment to your GitHub repository.
 
 * Submit the link to your GitHub repo on Bootcamp Spot.
+### Transaction output images
+* Setting up a Transaction with Jo for 15 hours at a cost of 0.19 ETH
+![This is the setup of the transaction](Images/TransactionSetup.png)
 
+* Ganache before the transaction
+![](Images/BeforeTransaction.png)
+
+* Ganache after the transaction completes. Index 0, our account showing the balance after the transaction.
+![](Images/TransactionCompleteGanache.png)
+
+* Contract details in Ganache
+![](Images/ContractDetails.png)
+
+* Streamlit after the transaction completes showing the transaction hash
+![](Images/TransactionCompleteStreamlit.png)
 ---
 
 © 2021 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
